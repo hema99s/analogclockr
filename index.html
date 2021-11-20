@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <div class="clock">
+    <div id="MyClockDisplay" class="clock2" onload="showTime()"></div>
+     
+    <div id="hours"></div>
+    <div id="minutes"></div>
+    <div id="seconds"></div>
+    <div class="three"></div>
+    <div class="six"></div>
+    <div class="nine"></div>
+    <div class="twelve"></div>
+    <div class="center"></div>
+    <span class='ticks'>
+      <span class='tick-1'></span>
+      <span class='tick-2'></span>
+      <span class='tick-3'></span>
+      <span class='tick-4'></span>
+      <span class='tick-5'></span>
+      <span class='tick-6'></span>
+      <span class='tick-7'></span>
+      <span class='tick-8'></span>
+      <span class='tick-9'></span>
+      <span class='tick-10'></span>
+      <span class='tick-11'></span>
+      <span class='tick-12'></span>
+      <span class='tick-13'></span>
+      <span class='tick-14'></span>
+      <span class='tick-15'></span>
+      <span class='tick-16'></span>
+      <span class='tick-17'></span>
+      <span class='tick-18'></span>
+      <span class='tick-19'></span>
+      <span class='tick-20'></span>
+      <span class='tick-21'></span>
+      <span class='tick-22'></span>
+      <span class='tick-23'></span>
+      <span class='tick-24'></span>
+      <span class='tick-25'></span>
+      <span class='tick-26'></span>
+      <span class='tick-27'></span>
+      <span class='tick-28'></span>
+      <span class='tick-29'></span>
+      <span class='tick-30'></span>
+      <span class='tick-31'></span>
+      <span class='tick-32'></span>
+      <span class='tick-33'></span>
+      <span class='tick-34'></span>
+      <span class='tick-35'></span>
+      <span class='tick-36'></span>
+      <span class='tick-37'></span>
+      <span class='tick-38'></span>
+      <span class='tick-39'></span>
+      <span class='tick-40'></span>
+      <span class='tick-41'></span>
+      <span class='tick-42'></span>
+      <span class='tick-43'></span>
+      <span class='tick-44'></span>
+      <span class='tick-45'></span>
+      <span class='tick-46'></span>
+      <span class='tick-47'></span>
+      <span class='tick-48'></span>
+      <span class='tick-49'></span>
+      <span class='tick-50'></span>
+      <span class='tick-51'></span>
+      <span class='tick-52'></span>
+      <span class='tick-53'></span>
+      <span class='tick-54'></span>
+      <span class='tick-55'></span>
+      <span class='tick-56'></span>
+      <span class='tick-57'></span>
+      <span class='tick-58'></span>
+      <span class='tick-59'></span>
+      <span class='tick-60'></span>
+    </span>
+  </div>
+</div>
+
+
+   <script>
+    
+    function moveTheClock () {
+	with(new Date()) {
+		h = 30 * (getHours() % 12 + getMinutes() / 60); 
+		m = 6 * getMinutes(); 
+		s = 6 * getSeconds(); 
+	
+		document.getElementById('seconds').style.cssText = "-webkit-transform:rotate(" + s + "deg);";
+		document.getElementById('minutes').style.cssText = "-webkit-transform:rotate(" + m + "deg);";
+		document.getElementById('hours').style.cssText = "-webkit-transform:rotate(" + h + "deg);";
+		
+		setTimeout(moveTheClock, 1000); 
+	}
+}
+
+window.onload = moveTheClock;
+
+function showTime(){
+    var date = new Date();
+    var h = date.getHours(); 
+    var m = date.getMinutes(); 
+    var s = date.getSeconds(); 
+    var session = "AM";
+    
+    if(h == 0){
+        h = 12;
+    }
+    
+    if(h > 12){
+        h = h - 12;
+        session = "PM";
+    }
+    
+    h = (h < 10) ? "0" + h : h;
+    m = (m < 10) ? "0" + m : m;
+    s = (s < 10) ? "0" + s : s;
+    
+    var time = h + ":" + m + ":" + s + " " + session;
+    document.getElementById("MyClockDisplay").innerText = time;
+    document.getElementById("MyClockDisplay").textContent = time;
+    
+    setTimeout(showTime, 1000);
+    
+}
+
+showTime();
+      </script>
+
+<script type="text/javascript">
+
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	
+</script></body>
+</html>
